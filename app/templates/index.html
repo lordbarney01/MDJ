@@ -1,0 +1,18 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+        <h3>Hello, {{ user.username }}, chosse the songs you like</h3>
+     {% for song in songs %}
+
+        <div><p>{{ song.song_name }} </p></div><br>
+         <iframe width="420" height="315"
+         src={{ song.url }}>
+         </iframe>
+         <form action="">
+            <input type="checkbox" name={{ song.song_name }} value="Bike"> click here to choose<br>
+        </form>
+        {% endfor %}
+    <input type="submit" value="Submit" onclick="func">
+{% endblock %}
