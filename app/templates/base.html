@@ -2,11 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <h4 <title>{{ title }} - Aryekes</title>
+        <title>{{ title }} - Aryekes</title>
     </head>
     <body>
-            <div>
-            <a href="/login">Login</a>
+        <div>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
         </div>
     <hr>
         {% with messages = get_flashed_messages() %}

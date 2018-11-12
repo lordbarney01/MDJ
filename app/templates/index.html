@@ -3,16 +3,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <h3>Hello, {{ user.username }}, chosse the songs you like</h3>
+<h3 xmlns:>Hello, {{ current_user.userName }}, choose the songs you like</h3>
+ <form action="" method="post">
      {% for song in songs %}
 
-        <div><p>{{ song.song_name }} </p></div><br>
-         <iframe width="420" height="315"
-         src={{ song.url }}>
+        <div style="display:inline;float:left;width:auto;" <p>{{ song.songName }} </p><br>
+
+        <iframe width="220" height="215"
+        src="https://www.youtube.com/embed/{{ song.youtubeUrl }}" >
          </iframe>
-         <form action="">
-            <input type="checkbox" name={{ song.song_name }} value="Bike"> click here to choose<br>
-        </form>
+
+        <input type="checkbox" name="song" class="songs" value={{ song.youtubeUrl }}>
+        </div>
         {% endfor %}
-    <input type="submit" value="Submit" onclick="func">
+
+    <br><input type="submit" value="Create playlist">
+     </form>
 {% endblock %}

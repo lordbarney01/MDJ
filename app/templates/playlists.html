@@ -1,0 +1,30 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+<h3 xmlns:>Hello, {{ current_user.userName }}, here are your play lists</h3>
+<p id="fooHolder"></p>
+<script> var playlists = {{ playlists |tojson }};
+         document.getElementById("fooHolder").innerHTML = ""
+         for (var playlist in playlists) {
+             values = playlists[playlist];
+             console.log(playlist);
+             document.getElementById("fooHolder").innerHTML += "<h3 xmlns:>" + playlist + "</h3>";
+             for (var song in values) {
+                document.getElementById("fooHolder").innerHTML += "<div><p>" + song + "</p></div><br>";
+                var iframe = document.createElement("iframe");
+                iframe.setAttribute("src","https://www.youtube.com/embed/" + values[song]
+                + "?&autohide=1&border=0&wmode=opaque&enablejsapi=1");
+                iframe.style.width  = 420;
+                iframe.style.height = 235;
+                document.getElementById("fooHolder").appendChild(iframe);
+                console.log(song);
+                console.log(values[song]);
+                };
+             };
+</script>
+
+
+
+{% endblock %}

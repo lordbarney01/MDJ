@@ -5,7 +5,7 @@ from app.api.erros import bad_request
 from flask import jsonify
 
 @bp.route('/songs/', methods=['POST'])
-def add_song(youtubeUrl):
+def add_song():
     data = request.get_json() or {}
     if 'youtubeUrl' not in data or 'songName' not in data:
         return bad_request()
