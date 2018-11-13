@@ -3,16 +3,24 @@ from config import Config
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 
-app = Flask(__name__)
-app.config.from_object(Config)
-db = MongoEngine(app)
-login = LoginManager(app)
+
+db = MongoEngine()
+login = LoginManager()
 login.login_view = 'login'
 
-from app import routes
-from app.api import bp as api_bp
-app.debug = True
-app.register_blueprint(api_bp, url_prefix='/api')
+
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+    db.init_app(app)
+    login.init_app(app)
+    from app.routes import bp as routes
+    from app.api import bp as api_bp
+    app.debug = True
+    app.register_blueprint(api_bp, url_prefix='/api')
+    app.register_blueprint(routes, url_prefix='/')
+
+    return app
 
 #from app.models import Song
 #song = Song()

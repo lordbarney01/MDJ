@@ -1,10 +1,10 @@
 from flask import render_template, flash, redirect, url_for, request
-from app import app, db
 from werkzeug.urls import url_parse
 from app.models import User, Playlist, Song, load_user
 from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, login_required, logout_user
 from datetime import datetime
+from app.routes import bp as app
 
 
 @app.route('/playlist', methods=['GET', 'POST'])
@@ -46,7 +46,7 @@ def index():
         user = load_user(current_user.userName)
         user.playlists.append(playlist)
         user.save()
-        return redirect(url_for('playlists'))
+        return redirect(url_for('routes.playlists'))
 
         #user = load_user(current_user.userName)
         #user.playlists.append(playlist).save()
@@ -56,20 +56,18 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('routes.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.objects(userName=form.username.data).first()
         if user is not None and len(user.userName) > 1:
-            flash('hello' + user.userName)
             user = load_user(user.userName)
             login_user(user, remember=form.remember_me.data)
-            flash(user.is_authenticated)
             next_page = request.args.get('next')
             if not next_page or url_parse(next_page).netloc != '':
-                next_page = url_for('index')
+                next_page = url_for('routes.index')
             return redirect(next_page)
-        return redirect(url_for('register'))
+        return redirect(url_for('routes.register'))
     return render_template('login.html', title='Sign In', user=current_user, form=form)
 
 
@@ -82,14 +80,14 @@ def register():
         user = User(userName=form.username.data)
         user.save()
         flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('login'))
+        return redirect(url_for('routes.login'))
     return render_template('register.html', title='Register', form=form)
 
 
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('routes.login'))
 '''
 $ export FLASK_APP=MDJ.py
 $ flask run

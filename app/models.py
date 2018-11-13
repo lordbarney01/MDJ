@@ -5,7 +5,7 @@ from app import login
 
 class Song(Document):
     youtubeUrl = StringField(unique=True, required=True)
-    songName = StringField(required=True, max_length=50, min_length=1)
+    songName = StringField(required=True, max_length=100, min_length=1)
     genre = ListField(StringField())
     author = StringField()
 

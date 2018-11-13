@@ -1,22 +1,20 @@
-from  app.api import bp
+from app.api import bp
 from app.models import Song
-from flask import url_for, request
 from app.api.erros import bad_request
 from flask import jsonify
+from lxml import etree
+import urllib
 
-@bp.route('/songs/', methods=['POST'])
-def add_song():
-    data = request.get_json() or {}
-    if 'youtubeUrl' not in data or 'songName' not in data:
-        return bad_request()
+
+@bp.route('/songs/<youtubeUrl>', methods=['POST'])
+def add_song(youtubeUrl):
+    youtube = etree.HTML(urllib.request.urlopen("http://www.youtube.com/watch?v=" + youtubeUrl).read())
+    video_title = str(youtube.xpath("//span[@id='eow-title']/@title"))[2:-2]
+    if len(video_title) < 2:
+        return bad_request("url for song incorrect")
     song = Song()
-    song.youtubeUrl = data['youtubeUrl']
-    song.songName = data['songName']
-    if 'author' in data:
-        song.author = data['author']
-    if 'genre' in data:
-        song.genre = data['genre']
-
+    song.youtubeUrl = youtubeUrl
+    song.songName = video_title
     song.save()
     response = jsonify()
     response.status_code = 201
