@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from werkzeug.urls import url_parse
-from app.models import User, Playlist, Song, load_user
+from app.entities.models import User, Playlist, Song, load_user
 from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, login_required, logout_user
 from datetime import datetime

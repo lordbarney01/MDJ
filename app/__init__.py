@@ -2,7 +2,7 @@ from flask import Flask
 from config import Config
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
-
+from celery import Celery
 
 db = MongoEngine()
 login = LoginManager()
@@ -19,7 +19,8 @@ def create_app(config_class=Config):
     app.debug = True
     app.register_blueprint(api_bp, url_prefix='/api')
     app.register_blueprint(routes, url_prefix='/')
-
+    celery = Celery(app.name, broker='amqp://MDJ:asdasd@localhost:5672/MDj_host')
+    celery.conf.update(app.config)
     return app
 
 #from app.models import Song

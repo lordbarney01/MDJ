@@ -1,4 +1,4 @@
-from mongoengine import Document, StringField, DateTimeField, ListField, BooleanField, ReferenceField
+from mongoengine import Document, StringField, ListField, BooleanField, ReferenceField, NULLIFY
 from flask_login import UserMixin
 from app import login
 
@@ -13,20 +13,12 @@ class Song(Document):
 class Playlist(Document):
     title = StringField(unique=True, required=True)
     isPrivate = BooleanField()
-    songs = ListField(ReferenceField(Song))
-
-
-    #ef __init__(self, title, songs):
-    #   super(Playlist, Playlist).__init__(self)
-    #   self.title = title
-    #   for song in songs:
-    #       self.songs.append(Song(youtubeUrl=song.youtubeUrl))
-
+    songs = ListField(ReferenceField(Song), reverse_delete_rule=NULLIFY)
 
 
 class User(UserMixin, Document):
     userName = StringField(unique=True, required=True, max_length=20, min_length=2)
-    playlists = ListField(ReferenceField(Playlist))
+    playlists = ListField(ReferenceField(Playlist, reverse_delete_rule=NULLIFY))
 
 
 @login.user_loader
