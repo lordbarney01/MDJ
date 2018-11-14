@@ -1,12 +1,16 @@
 from lxml import etree
-from app.api import bp
 from app.entities.models import Song
 from app.api.erros import bad_request
 from flask import jsonify
 from app.tasks.tasks import TaskAddSong, TaskDeleteSong
 import urllib
+from flask import Blueprint
 
-@bp.route('/songs/<youtubeUrl>', methods=['POST'])
+
+app = Blueprint('api', __name__)
+
+
+@app.route('/songs/<youtubeUrl>', methods=['POST'])
 def add_song(youtubeUrl):
     youtube = etree.HTML(urllib.request.urlopen("http://www.youtube.com/watch?v=" + youtubeUrl).read())
     video_title = str(youtube.xpath("//span[@id='eow-title']/@title"))[2:-2]
@@ -22,7 +26,7 @@ def add_song(youtubeUrl):
     return response
 
 
-@bp.route('/songs/<youtubeUrl>', methods=['DELETE'])
+@app.route('/songs/<youtubeUrl>', methods=['DELETE'])
 def delete_song(youtubeUrl):
     try:
         TaskDeleteSong().run(youtubeUrl=youtubeUrl)
@@ -33,7 +37,7 @@ def delete_song(youtubeUrl):
 
     return response
 
-@bp.route('/songs/', methods=['GET'])
+@app.route('/songs/', methods=['GET'])
 def get_songs():
     data = {}
 
