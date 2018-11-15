@@ -1,0 +1,35 @@
+{
+  "songs": [
+    {
+      "youtubeUrl": "sKZN115n6MI",
+      "songName": "Everything in its right place",
+      "genre": [
+        "Alternative",
+        "Rock",
+        "2000",
+        "Experimental"
+      ],
+      "author": "Radiohead"
+    },
+    {
+      "youtubeUrl" : "11oAXmVdEyQ",
+      "songName" : "2+2=5",
+      "genre" : [
+        "Alternative",
+        "Rock",
+        "2000",
+        "Experimental"
+      ],
+      "author" : "Radiohead"
+    }
+
+
+  ],
+  "users": [
+    {
+      "userName" : "bbb",
+      "playlists" : []
+    }
+  ]
+}
+

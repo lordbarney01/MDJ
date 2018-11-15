@@ -1,6 +1,6 @@
 from mongoengine import Document, StringField, ListField, BooleanField, ReferenceField, NULLIFY
 from flask_login import UserMixin
-from app import login
+from app.api.MDJ import login
 
 
 class Song(Document):

@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request, Blueprint
 from werkzeug.urls import url_parse
-from app.entities.models import User, Playlist, Song, load_user
-from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, login_required, logout_user
+from app.entities.models import User, Playlist, Song, load_user
+from app.api.forms import LoginForm, RegistrationForm
 from datetime import datetime
 
 app = Blueprint('gui-routes', __name__)
@@ -57,7 +57,7 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('gui-routes.index'))
+        return redirect(url_for('routes.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.objects(userName=form.username.data).first()
